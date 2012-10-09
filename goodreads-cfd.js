@@ -1,5 +1,5 @@
 var application = (function() {
-    var cfdData = {};
+    var cfdData = [];
     var pub = {};
     const localStorageKey = "mmsquare.goodreads-cdn.books";
 
@@ -23,6 +23,26 @@ var application = (function() {
             crossDomain: true,
             success: function(data, textStatus, jqXHR) {
 
+                function getDateFromXml(jQueryElement, fieldName) {
+                    var dateString = jQueryElement.find(fieldName).text();
+                    if (dateString) {
+                        return new Date(Date.parse(dateString));
+                    } else {
+                        return null;
+                    }
+                }
+
+                $(data).find('review').each(function() {
+                    var book = {};
+
+                    book.dateAdded = getDateFromXml($(this),'date_added');
+                    book.dateStarted = getDateFromXml($(this),'started_at');
+                    book.dateFinished = getDateFromXml($(this),'read_at');
+                    book.isbn = $(this).find('isbn').text();
+
+                    cfdData.push(book);
+                });
+                pub.cdfData = cfdData;
                 //localStorage.setItem(localStorageKey, data);
             },
             done: function() {
