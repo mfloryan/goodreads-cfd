@@ -42,8 +42,7 @@ var application = (function() {
 
                     cfdData.push(book);
                 });
-                pub.cdfData = cfdData;
-                //localStorage.setItem(localStorageKey, data);
+                localStorage.setItem(localStorageKey, cfdData);
             },
             done: function() {
                 $('#goodreads-api').hide();
