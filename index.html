@@ -9,11 +9,16 @@
     <h1>Goodreads CFD</h1>
     <div id="goodreads-api">
         <form>
-            <label>Goodread API Key<input id="apiKey" type="text" name="apiKey"/></label>
+            <label>Goodreads API Key<input id="apiKey" type="text" name="apiKey"/></label>
+            <label>Goodreads User ID<input id="userId" type="text" name="userId"/></label>
             <input id="get-goodreads-data" type="button" value="Load data" />
         </form>
     </div>
     <input id="draw-button" type="button" value="Draw" />
+
+    <div id="goodreads-cfd-chart"></div>
+
+    <script type="text/javascript" src="lib/Jit/jit-yc.js"></script>
     <script type="text/javascript" src="goodreads-cfd.js"></script>
 </body>
 </html>

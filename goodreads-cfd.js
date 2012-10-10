@@ -7,7 +7,7 @@ var application = (function() {
         var goodreadsData = localStorage.getItem(localStorageKey);
         if (goodreadsData) {
             cfdData = JSON.parse(goodreadsData);
-            //Well, rehydrating object from JSON kills dates. Sadly.
+            //Well, re-hydrating object from JSON kills dates. Sadly.
             cfdData.forEach(function(item, index, array) {
                 if (item.dateAdded) item.dateAdded = new Date(Date.parse(item.dateAdded));
                 if (item.dateStarted) item.dateStarted = new Date(Date.parse(item.dateStarted));
@@ -19,8 +19,7 @@ var application = (function() {
     };
 
     pub.loadGoodReadsData = function() {
-        //var url = "http://www.goodreads.com/review/list/2924969?format=xml&key="+$('#apiKey').val()+"&v=2&per_page=40";
-        var url = "sample1.xml";
+        var url = "http://www.goodreads.com/review/list/"+$("#userId").val()+"?format=xml&key="+$('#apiKey').val()+"&v=2&per_page=200";
         $.ajax({
             url: url,
             dataType: 'xml',
@@ -109,15 +108,13 @@ var application = (function() {
                 if (bookDataPoint.done) {
                     updateMinAndMaxDate(bookDataPoint.done);
                 }
-
             }
-
         });
 
         console.log("Done");
 
         var chartData = {
-          'label' : ['ready', 'reading', 'done'],
+          'label' : ['done', 'reading', 'ready'],
           'values': []
         };
 
@@ -155,16 +152,60 @@ var application = (function() {
         for (var i=0; i < numberOfSteps; i++) {
             var dateForDataPoint = new Date(firstDate.getTime() + (i * step));
 
-            console.log(dateForDataPoint);
-
             var dataPoint = {
                 label:i.toString(),
-                values: [calculateReady(dateForDataPoint), calculateReading(dateForDataPoint), calculateDone(dateForDataPoint)]
+                values: [calculateDone(dateForDataPoint), calculateReading(dateForDataPoint), calculateReady(dateForDataPoint)]
             };
             chartData.values.push(dataPoint);
         }
 
+        var dataPoint = {
+            label:'20',
+            values: [calculateDone(lastDate), calculateReading(lastDate), calculateReady(lastDate)]
+        };
+        chartData.values.push(dataPoint);
+
         console.log("Done Done");
+
+        var areaChart = new $jit.AreaChart({
+            //id of the visualization container
+            injectInto: 'goodreads-cfd-chart',
+            //add animations
+            animate: false,
+            //separation offsets
+            Margin: {
+                top: 5,
+                left: 5,
+                right: 5,
+                bottom: 5
+            },
+            labelOffset: 10,
+            //whether to display sums
+            showAggregates: false,
+            //whether to display labels at all
+            showLabels: true,
+            //could also be 'stacked'
+            type: 'stacked',
+            //label styling
+            Label: {
+                type: 'Native', //can be 'Native' or 'HTML'
+                size: 13,
+                family: 'Arial, Helvetica',
+                color: 'white'
+            },
+            //enable tips
+            Tips: {
+                enable: true,
+                onShow: function(tip, elem) {
+                    tip.innerHTML = "<b>" + elem.name + "</b>: " + elem.value;
+                }
+            },
+            //add left and right click handlers
+            filterOnClick: false,
+            restoreOnRightClick:false
+        });
+        //load JSON data.
+        areaChart.loadJSON(chartData);
     };
 
     return pub;

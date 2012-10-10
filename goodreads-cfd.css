@@ -2,3 +2,9 @@
 #goodreads-api {
     display: none;
 }
+
+#goodreads-cfd-chart {
+    width: 800px;
+    height: 600px;
+    background-color: black;
+}
