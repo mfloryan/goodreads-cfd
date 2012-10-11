@@ -13,7 +13,10 @@ The idea is simple:
 * Probably your GoodReads API Key http://www.goodreads.com/api/keys
 * Also your GoodReads user id
 * A server to put it on (apache?)
-* A browser to run it in (chrome)
+* A browser to run it in (only tested in Google Chrome)
 
 ## Any problems?
-So far I have not been able to get a successful AJAX call to GoodRead so I just downloaded the XML and loaded it locally from the server. You need to tweak the URL accordingly. If you dare trying this tool out, you know what you're doing anyway.
+So far I have not been able to get a successful AJAX call to GoodReads so I just downloaded the XML and loaded it locally from the server. You need to tweak the URL accordingly. If you dare trying this tool out, you know what you're doing anyway.
+
+##Where are the tests?
+A very good question. While I feel comfortable with TDD in C# or Groovy I'm still learning JavaScript and the unit testing frameworks like Jasmine. If you can help me write some good tests or refactor the code I wrote I will welcome your contribution and feedback.
