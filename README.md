@@ -1,5 +1,7 @@
 # GoodReads CFD
 
+*Generate a Cumulative Flow Diagram based on your reading history in GoodReads*
+
 This is all because of this tweet: https://twitter.com/agileactivist/status/255357951005581312
 
 The idea is simple:
